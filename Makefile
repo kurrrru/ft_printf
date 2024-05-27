@@ -8,10 +8,10 @@ CFLAG	=	-Wall -Wextra -Werror
 
 .DEFAULT_GOAL := all
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBDIR)/$(LIB)
 	ar rcs $(NAME) $(OBJS) $(LIBDIR)/$(LIB)
 
-%.o: %.c $(LIBDIR)/$(LIB)
+%.o: %.c
 	$(CC) $(CFLAG) -c $< -o $@
 
 clean: libft_clean
