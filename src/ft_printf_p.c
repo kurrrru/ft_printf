@@ -20,8 +20,6 @@ int	ft_printf_p(void *p)
 	char			*base;
 	int				i;
 
-	if (!p)
-		return (ft_printf_s("(nil)"));
 	ul = (unsigned long)p;
 	base = "0123456789abcdef";
 	memo[16] = '\0';
