@@ -9,7 +9,8 @@ CFLAG	=	-Wall -Wextra -Werror
 .DEFAULT_GOAL := all
 
 $(NAME): $(OBJS) $(LIBDIR)/$(LIB)
-	ar rcs $(NAME) $(OBJS) $(LIBDIR)/$(LIB)
+	cp $(LIBDIR)/$(LIB) $(NAME)
+	ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAG) -c $< -o $@
