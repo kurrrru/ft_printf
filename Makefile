@@ -1,5 +1,19 @@
-SRCS		=	ft_printf.c src/ft_printf_c.c src/ft_printf_s.c src/ft_printf_p.c src/ft_printf_d.c src/ft_printf_u.c src/ft_printf_x.c src/ft_printf_x_upper.c
-BONUS_SRCS	=	ft_printf_bonus.c src_bonus/ft_printf_c_bonus.c src_bonus/ft_printf_s_bonus.c src_bonus/ft_printf_d_bonus.c src_bonus/ft_printf_u_bonus.c src_bonus/ft_printf_x_bonus.c src_bonus/ft_printf_utils_bonus.c
+SRCS		=	ft_printf.c \
+				src/ft_printf_c.c \
+				src/ft_printf_s.c \
+				src/ft_printf_p.c \
+				src/ft_printf_d.c \
+				src/ft_printf_u.c \
+				src/ft_printf_x.c \
+				src/ft_printf_x_upper.c
+BONUS_SRCS	=	ft_printf_bonus.c \
+				src_bonus/ft_printf_c_bonus.c \
+				src_bonus/ft_printf_s_bonus.c \
+				src_bonus/ft_printf_d_bonus.c \
+				src_bonus/ft_printf_u_bonus.c \
+				src_bonus/ft_printf_x_bonus.c \
+				src_bonus/ft_printf_p_bonus.c \
+				src_bonus/ft_printf_utils_bonus.c
 OBJS		=	$(SRCS:.c=.o)
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
 LIBDIR		=	libft

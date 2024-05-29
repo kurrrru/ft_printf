@@ -244,4 +244,18 @@ int	ft_printf(const char *format, ...)
 // 	ft_printf("ret = %d\n", ret);
 // 	ret = ft_printf("[%#10p]\n", NULL);
 // 	ft_printf("ret = %d\n", ret);
+
+// 	// // test for %%
+// 	// printf("%%\n");
+// 	// ret = ft_printf("%%\n");
+// 	// ft_printf("ret = %d\n", ret);
+// 	// printf("[%5%]\n");
+// 	// ret = ft_printf("[%5%]\n");
+// 	// ft_printf("ret = %d\n", ret);
+// 	// printf("[%-5%]\n");
+// 	// ret = ft_printf("[%-5%]\n");
+// 	// ft_printf("ret = %d\n", ret);
+// 	// printf("[%-05%]\n");
+// 	// ret = ft_printf("[%-05%]\n");
+// 	// ft_printf("ret = %d\n", ret);
 // }

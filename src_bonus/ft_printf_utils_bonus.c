@@ -33,7 +33,7 @@ int	fill(char filler, int len)
 	ret = len;
 	while (len-- > 0)
 		ft_putchar_fd(filler, STDOUT_FILENO);
-	return (ret);
+	return (max(0, ret));
 }
 
 int	ft_printf_atoi(const char **str)
