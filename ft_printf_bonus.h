@@ -32,7 +32,7 @@ int				ft_printf_d_with_flag(int d, int flag[]);
 int				ft_printf_u_with_flag(unsigned int u, int flag[]);
 int				ft_printf_x_with_flag(unsigned int x, int flag[],
 					char *base, char *prefix);
-// int				ft_printf_p_with_flag(void *p, int flag[]);
+int				ft_printf_p_with_flag(void *p, int flag[]);
 
 typedef enum e_flag_type
 {

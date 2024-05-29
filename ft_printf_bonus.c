@@ -12,7 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
-static int	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
+static void	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
 {
 	if (*format == 'd' || *format == 'i')
 		*ret += ft_printf_d_with_flag(va_arg(ap, int), flag_cnt);
@@ -24,20 +24,17 @@ static int	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
 		*ret += ft_printf_u_with_flag(va_arg(ap, unsigned int), flag_cnt);
 	else if (*format == 'x')
 		*ret += ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
-			"0123456789abcdef", "0x");
+				"0123456789abcdef", "0x");
 	else if (*format == 'X')
 		*ret += ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
-			"0123456789ABCDEF", "0X");
+				"0123456789ABCDEF", "0X");
 	else if (*format == 'p')
 	{
-		flag_cnt[f_hash] = 1;
-		*ret += ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
-			"0123456789abcdef", "0x");
+		*ret += ft_printf_p_with_flag(va_arg(ap, void *), flag_cnt);
 	}
 	else if (*format == '%')
 		*ret += write(STDOUT_FILENO, "%", 1);
 }
-
 
 // ft_printf_flagcnt: sub function for ft_printf
 // analyze the format string and call the corresponding function
@@ -49,7 +46,8 @@ static int	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
 // flags[4]: '0'
 // flags[5]: field width
 // flags[6]: precision
-static void	ft_printf_flagcnt(const char *format, va_list ap, int *ret, int flag_len)
+static void	ft_printf_flagcnt(const char *format, va_list ap, int *ret,
+		int flag_len)
 {
 	int	flag_cnt[7];
 
@@ -106,145 +104,144 @@ int	ft_printf(const char *format, ...)
 	return (ret);
 }
 
+// int main(void)
+// {
+// 	int ret;
 
-int main(void)
-{
-	int ret;
+// 	ret = ft_printf("%d\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("%d\n", -123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("%d\n", 0);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5d]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5d]\n", -123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5d]\n", 0);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-5d]\n", -123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 5d]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 05d]\n", -123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+5d]\n", 0);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+10.5d]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
 
-	ret = ft_printf("%d\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("%d\n", -123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("%d\n", 0);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5d]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5d]\n", -123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5d]\n", 0);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-5d]\n", -123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 5d]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 05d]\n", -123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+5d]\n", 0);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+10.5d]\n", 123);
-	ft_printf("ret = %d\n", ret);
+// 	// test for s
+// 	ret = ft_printf("%s\n", "Hello, world!");
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%20s]\n", "Hello, world!");
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-20s]\n", "Hello, world!");
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%20.5s]\n", "Hello, world!");	
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%20.15s]\n", "Hello, world!");
+// 	ft_printf("ret = %d\n", ret);
 
-	// test for s
-	ret = ft_printf("%s\n", "Hello, world!");
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%20s]\n", "Hello, world!");
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-20s]\n", "Hello, world!");
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%20.5s]\n", "Hello, world!");	
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%20.15s]\n", "Hello, world!");
-	ft_printf("ret = %d\n", ret);
-	
-	// test for c
-	ret = ft_printf("%c\n", 'A');
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5c]\n", 'A');
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-5c]\n", 'A');
-	ft_printf("ret = %d\n", ret);
+// 	// test for c
+// 	ret = ft_printf("%c\n", 'A');
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5c]\n", 'A');
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-5c]\n", 'A');
+// 	ft_printf("ret = %d\n", ret);
 
-	// test for u
-	ret = ft_printf("%u\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5u]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-5u]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 5u]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 05u]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+5u]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+10.5u]\n", 123);
-	ft_printf("ret = %d\n", ret);
+// 	// test for u
+// 	ret = ft_printf("%u\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5u]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-5u]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 5u]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 05u]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+5u]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+10.5u]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
 
-	// test for x
-	ret = ft_printf("%x\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 05x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+10.5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#10.5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#-10.5x]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#010x]\n", 0);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#010x]\n", 123);
-	ft_printf("ret = %d\n", ret);
+// 	// test for x
+// 	ret = ft_printf("%x\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 05x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+10.5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#10.5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#-10.5x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#010x]\n", 0);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#010x]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
 
-	// test for X
-	ret = ft_printf("%X\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 05X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+10.5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#10.5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#-10.5X]\n", 123);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#010X]\n", 0);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#010X]\n", 123);
-	ft_printf("ret = %d\n", ret);
+// 	// test for X
+// 	ret = ft_printf("%X\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 05X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+10.5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#10.5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#-10.5X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#010X]\n", 0);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#010X]\n", 123);
+// 	ft_printf("ret = %d\n", ret);
 
-	// test for p
-	ret = ft_printf("%p\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%-5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[% 05p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%+10.5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#10.5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#-10.5p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#010p]\n", &ret);
-	ft_printf("ret = %d\n", ret);
-	ret = ft_printf("[%#10p]\n", NULL);
-	ft_printf("ret = %d\n", ret);
-}
+// 	// test for p
+// 	ret = ft_printf("%p\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%-5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[% 05p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%+10.5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#10.5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#-10.5p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#010p]\n", &ret);
+// 	ft_printf("ret = %d\n", ret);
+// 	ret = ft_printf("[%#10p]\n", NULL);
+// 	ft_printf("ret = %d\n", ret);
+// }
