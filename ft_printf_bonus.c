@@ -53,7 +53,8 @@ static void	ft_printf_flagcnt(const char *format, va_list ap, int *ret,
 
 	ft_memset(flag_cnt, 0, sizeof(flag_cnt));
 	flag_cnt[f_prec] = -1;
-	while (*(++format) && --flag_len && (*format < '1' || *format > '9'))
+	while (*(++format) && --flag_len
+		&& (*format < '1' || *format > '9') && *format != '.')
 	{
 		if (*format == '#')
 			flag_cnt[f_hash] = 1;
@@ -68,11 +69,8 @@ static void	ft_printf_flagcnt(const char *format, va_list ap, int *ret,
 	}
 	if (*format >= '1' && *format <= '9')
 		flag_cnt[f_width] = ft_printf_atoi(&format);
-	if (*format == '.')
-	{
-		format++;
+	if (*format == '.' && format++)
 		flag_cnt[f_prec] = ft_printf_atoi(&format);
-	}
 	select_op(format, ap, flag_cnt, ret);
 }
 
@@ -91,7 +89,7 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			flag_len = 1;
-			while (!ft_strrchr("cspdiuxX%%", format[flag_len]))
+			while (!ft_strchr("cspdiuxX%%", format[flag_len]))
 				flag_len++;
 			ft_printf_flagcnt(format, ap, &ret, flag_len);
 			format += flag_len;

@@ -32,7 +32,7 @@ int	fill(char filler, int len)
 
 	ret = len;
 	while (len-- > 0)
-		ft_putchar_fd(filler, STDOUT_FILENO);
+		write(STDOUT_FILENO, &filler, 1);
 	return (max(0, ret));
 }
 

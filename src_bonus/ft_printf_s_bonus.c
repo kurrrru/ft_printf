@@ -23,11 +23,11 @@ int	ft_printf_s_with_flag(char *s, int flag[])
 	else if (!s)
 		return (ft_printf_s_with_flag("", flag));
 	len = ft_strlen(s);
-	if (flag[f_plus] == 0 && (flag[f_width] >= flag[f_prec]
+	if (flag[f_minus] == 0 && (flag[f_width] >= flag[f_prec]
 			|| flag[f_width] >= len))
 		fill(' ', flag[f_width] - min(len, flag[f_prec]));
 	write(1, s, min(len, flag[f_prec]));
-	if (flag[f_plus] == 1 && (flag[f_width] >= flag[f_prec]
+	if (flag[f_minus] == 1 && (flag[f_width] >= flag[f_prec]
 			|| flag[f_width] >= len))
 		fill(' ', flag[f_width] - min(len, flag[f_prec]));
 	return (max(flag[f_width], min(len, flag[f_prec])));
