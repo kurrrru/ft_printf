@@ -12,10 +12,12 @@
 
 #include "../ft_printf_bonus.h"
 
-int	ft_printf_x(unsigned int x, char memo[9], char *base)
+int	ft_printf_x(unsigned int x, char memo[9], char *base, int prec)
 {
 	int		i;
 
+	if (prec == 0 && x == 0)
+		return (ft_bzero(memo, 9), 0);
 	memo[8] = '\0';
 	memo[7] = base[x % 16];
 	i = 7;
@@ -34,7 +36,7 @@ int	ft_printf_x_with_flag(unsigned int x, int flag[], char *base, char *prefix)
 	int		x_len;
 	int		pre_len;
 
-	x_len = ft_printf_x(x, memo, base);
+	x_len = ft_printf_x(x, memo, base, flag[f_prec]);
 	ret = x_len;
 	pre_len = (x != 0 && flag[f_hash]) * 2;
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))

@@ -14,11 +14,13 @@
 
 // ft_printf_d: convert the integer d to a string
 // return: the number of characters without the sign
-int	ft_printf_d(int d, char memo[12])
+int	ft_printf_d(int d, char memo[12], int prec)
 {
 	int		i;
 	int		sign;
 
+	if (prec == 0 && d == 0)
+		return (ft_bzero(memo, 12), 0);
 	sign = (d >= 0) * 2 - 1;
 	memo[11] = '\0';
 	memo[10] = d % 10 * sign + '0';
@@ -47,7 +49,7 @@ int	ft_printf_d_with_flag(int d, int flag[])
 	int		d_len;
 	int		sign;
 
-	d_len = ft_printf_d(d, memo);
+	d_len = ft_printf_d(d, memo, flag[f_prec]);
 	ret = d_len;
 	sign = (d < 0) || (flag[f_plus] == 1) || (flag[f_space] == 1);
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))

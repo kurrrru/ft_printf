@@ -44,9 +44,11 @@ int	ft_printf_p_with_flag(void *p, int flag[])
 
 	p_len = ft_printf_p(p, memo);
 	ret = p_len;
-	if (flag[f_minus] == 0)
+	if (flag[f_minus] == 0 && flag[f_zero] == 0)
 		ret += fill(' ', flag[f_width] - p_len - 2);
 	ft_putstr_fd("0x", STDOUT_FILENO);
+	if (flag[f_minus] == 0 && flag[f_zero] == 1)
+		ret += fill('0', flag[f_width] - p_len - 2);
 	ft_putstr_fd(memo + 16 - p_len, STDOUT_FILENO);
 	if (flag[f_minus] == 1)
 		ret += fill(' ', flag[f_width] - p_len - 2);

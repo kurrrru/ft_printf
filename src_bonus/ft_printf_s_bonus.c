@@ -18,10 +18,8 @@ int	ft_printf_s_with_flag(char *s, int flag[])
 
 	if (flag[f_prec] == -1)
 		flag[f_prec] = INT_MAX;
-	if (!s && flag[f_prec] >= 6)
+	if (!s)
 		return (ft_printf_s_with_flag("(null)", flag));
-	else if (!s)
-		return (ft_printf_s_with_flag("", flag));
 	len = ft_strlen(s);
 	if (flag[f_minus] == 0 && (flag[f_width] >= flag[f_prec]
 			|| flag[f_width] >= len))

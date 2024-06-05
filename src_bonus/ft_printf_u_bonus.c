@@ -12,10 +12,12 @@
 
 #include "../ft_printf_bonus.h"
 
-static int	ft_printf_u(unsigned int u, char memo[12])
+static int	ft_printf_u(unsigned int u, char memo[12], int prec)
 {
 	int		i;
 
+	if (prec == 0 && u == 0)
+		return (ft_bzero(memo, 12), 0);
 	memo[11] = '\0';
 	memo[10] = u % 10 + '0';
 	i = 10;
@@ -42,7 +44,7 @@ int	ft_printf_u_with_flag(unsigned int u, int flag[])
 	int		ret;
 	int		u_len;
 
-	u_len = ft_printf_u(u, memo);
+	u_len = ft_printf_u(u, memo, flag[f_prec]);
 	ret = u_len;
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))
 		ret += fill(' ', flag[f_width] - max(u_len, flag[f_prec]));

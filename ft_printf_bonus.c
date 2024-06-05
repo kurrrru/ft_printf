@@ -33,7 +33,7 @@ static void	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
 		*ret += ft_printf_p_with_flag(va_arg(ap, void *), flag_cnt);
 	}
 	else if (*format == '%')
-		*ret += write(STDOUT_FILENO, "%", 1);
+		*ret += ft_printf_c_with_flag('%', flag_cnt);
 }
 
 // ft_printf_flagcnt: sub function for ft_printf
