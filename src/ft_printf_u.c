@@ -26,6 +26,5 @@ int	ft_printf_u(unsigned int u)
 		u /= 10;
 		memo[--i] = u % 10 + '0';
 	}
-	ft_putstr_fd(memo + i, STDOUT_FILENO);
-	return (10 - i);
+	return (write(STDOUT_FILENO, memo + i, 10 - i));
 }

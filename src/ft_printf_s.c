@@ -16,7 +16,6 @@
 int	ft_printf_s(char *s)
 {
 	if (!s)
-		return (ft_printf_s("(null)"));
-	ft_putstr_fd(s, STDOUT_FILENO);
-	return (ft_strlen(s));
+		return (write(STDOUT_FILENO, "(null)", 6));
+	return (write(STDOUT_FILENO, s, ft_strlen(s)));
 }

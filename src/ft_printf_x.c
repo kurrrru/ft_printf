@@ -28,6 +28,5 @@ int	ft_printf_x(unsigned int x)
 		x /= 16;
 		memo[--i] = base[x % 16];
 	}
-	ft_putstr_fd(memo + i, STDOUT_FILENO);
-	return (8 - i);
+	return (write(STDOUT_FILENO, memo + i, 8 - i));
 }

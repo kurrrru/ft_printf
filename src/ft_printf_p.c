@@ -16,21 +16,21 @@
 int	ft_printf_p(void *p)
 {
 	unsigned long	ul;
-	char			memo[17];
+	char			memo[19];
 	char			*base;
 	int				i;
 
 	ul = (unsigned long)p;
 	base = "0123456789abcdef";
-	memo[16] = '\0';
-	memo[15] = base[ul % 16];
-	i = 15;
+	memo[18] = '\0';
+	memo[17] = base[ul % 16];
+	i = 17;
 	while (ul >= 16)
 	{
 		ul /= 16;
 		memo[--i] = base[ul % 16];
 	}
-	ft_putstr_fd("0x", STDOUT_FILENO);
-	ft_putstr_fd(memo + i, STDOUT_FILENO);
-	return (18 - i);
+	memo[--i] = 'x';
+	memo[--i] = '0';
+	return (write(STDOUT_FILENO, memo + i, 18 - i));
 }

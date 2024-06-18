@@ -29,6 +29,5 @@ int	ft_printf_d(int d)
 		d /= 10;
 		memo[--i] = d % 10 * sign + '0';
 	}
-	ft_putstr_fd(memo + i - (d < 0), STDOUT_FILENO);
-	return (11 - i + (d < 0));
+	return (write(STDOUT_FILENO, memo + i - (d < 0), 11 - i + (d < 0)));
 }

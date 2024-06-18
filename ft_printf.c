@@ -13,24 +13,31 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
 
-static void	ft_printf_sub(const char *format, va_list ap, int *ret)
+static int	ft_printf_sub(const char *format, va_list ap, int *ret)
 {
+	int	w;
+
+	w = 0;
 	if (*format == 'd' || *format == 'i')
-		*ret += ft_printf_d(va_arg(ap, int));
+		w = ft_printf_d(va_arg(ap, int));
 	else if (*format == 's')
-		*ret += ft_printf_s(va_arg(ap, char *));
+		w = ft_printf_s(va_arg(ap, char *));
 	else if (*format == 'c')
-		*ret += ft_printf_c(va_arg(ap, int));
+		w = ft_printf_c(va_arg(ap, int));
 	else if (*format == 'u')
-		*ret += ft_printf_u(va_arg(ap, unsigned int));
+		w = ft_printf_u(va_arg(ap, unsigned int));
 	else if (*format == 'x')
-		*ret += ft_printf_x(va_arg(ap, unsigned int));
+		w = ft_printf_x(va_arg(ap, unsigned int));
 	else if (*format == 'X')
-		*ret += ft_printf_x_upper(va_arg(ap, unsigned int));
+		w = ft_printf_x_upper(va_arg(ap, unsigned int));
 	else if (*format == 'p')
-		*ret += ft_printf_p(va_arg(ap, void *));
+		w = ft_printf_p(va_arg(ap, void *));
 	else if (*format == '%')
-		*ret += ft_printf_c('%');
+		w = ft_printf_c('%');
+	if (w < 0)
+		return (-1);
+	*ret += w;
+	return (0);
 }
 
 int	ft_printf(const char *format, ...)
@@ -44,10 +51,14 @@ int	ft_printf(const char *format, ...)
 	va_start(ap, format);
 	while (*format)
 	{
-		if (*format == '%')
-			ft_printf_sub(++format, ap, &ret);
-		else
-			ret += ft_printf_c(*format);
+		if (*format != '%')
+		{
+			if (write(STDOUT_FILENO, format, 1) < 0)
+				return (-1);
+			ret += 1;
+		}
+		else if (ft_printf_sub(++format, ap, &ret) < 0)
+			return (-1);
 		format++;
 	}
 	va_end(ap);
