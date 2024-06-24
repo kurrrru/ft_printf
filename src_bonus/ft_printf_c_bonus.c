@@ -14,10 +14,13 @@
 
 int	ft_printf_c_with_flag(char c, int flag[])
 {
+	int	ret[3];
+
+	ft_memset(ret, 0, sizeof(ret));
 	if (flag[f_minus] == 0)
-		fill(' ', flag[f_width] - 1);
-	write(1, &c, 1);
+		ret[0] = fill(' ', flag[f_width] - 1);
+	ret[1] = write(STDOUT_FILENO, &c, 1);
 	if (flag[f_minus] == 1)
-		fill(' ', flag[f_width] - 1);
-	return (max(1, flag[f_width]));
+		ret[2] = fill(' ', flag[f_width] - 1);
+	return (sum_arr(ret, 3));
 }

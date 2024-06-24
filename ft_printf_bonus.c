@@ -12,28 +12,27 @@
 
 #include "ft_printf_bonus.h"
 
-static void	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
+static int	select_op(const char *format, va_list ap, int flag_cnt[])
 {
 	if (*format == 'd' || *format == 'i')
-		*ret += ft_printf_d_with_flag(va_arg(ap, int), flag_cnt);
+		return (ft_printf_d_with_flag(va_arg(ap, int), flag_cnt));
 	else if (*format == 's')
-		*ret += ft_printf_s_with_flag(va_arg(ap, char *), flag_cnt);
+		return (ft_printf_s_with_flag(va_arg(ap, char *), flag_cnt));
 	else if (*format == 'c')
-		*ret += ft_printf_c_with_flag(va_arg(ap, int), flag_cnt);
+		return (ft_printf_c_with_flag(va_arg(ap, int), flag_cnt));
 	else if (*format == 'u')
-		*ret += ft_printf_u_with_flag(va_arg(ap, unsigned int), flag_cnt);
+		return (ft_printf_u_with_flag(va_arg(ap, unsigned int), flag_cnt));
 	else if (*format == 'x')
-		*ret += ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
-				"0123456789abcdef", "0x");
+		return (ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
+				"0123456789abcdef", "0x"));
 	else if (*format == 'X')
-		*ret += ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
-				"0123456789ABCDEF", "0X");
+		return (ft_printf_x_with_flag(va_arg(ap, unsigned int), flag_cnt,
+				"0123456789ABCDEF", "0X"));
 	else if (*format == 'p')
-	{
-		*ret += ft_printf_p_with_flag(va_arg(ap, void *), flag_cnt);
-	}
+		return (ft_printf_p_with_flag(va_arg(ap, void *), flag_cnt));
 	else if (*format == '%')
-		*ret += ft_printf_c_with_flag('%', flag_cnt);
+		return (ft_printf_c_with_flag('%', flag_cnt));
+	return (-1);
 }
 
 // ft_printf_flagcnt: sub function for ft_printf
@@ -46,8 +45,7 @@ static void	select_op(const char *format, va_list ap, int flag_cnt[], int *ret)
 // flags[4]: '0'
 // flags[5]: field width
 // flags[6]: precision
-static void	ft_printf_flagcnt(const char *format, va_list ap, int *ret,
-		int flag_len)
+static int	ft_printf_flagcnt(const char *format, va_list ap, int flag_len)
 {
 	int	flag_cnt[7];
 
@@ -71,7 +69,17 @@ static void	ft_printf_flagcnt(const char *format, va_list ap, int *ret,
 		flag_cnt[f_width] = ft_printf_atoi(&format);
 	if (*format == '.' && format++)
 		flag_cnt[f_prec] = ft_printf_atoi(&format);
-	select_op(format, ap, flag_cnt, ret);
+	return (select_op(format, ap, flag_cnt));
+}
+
+static int	ft_printf_flag_len(const char *format)
+{
+	int	len;
+
+	len = 1;
+	while (!ft_strchr("cspdiuxX%%", format[len]))
+		len++;
+	return (len);
 }
 
 int	ft_printf(const char *format, ...)
@@ -79,6 +87,7 @@ int	ft_printf(const char *format, ...)
 	va_list	ap;
 	int		ret;
 	int		flag_len;
+	int		w;
 
 	if (!format)
 		return (-1);
@@ -88,15 +97,15 @@ int	ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			flag_len = 1;
-			while (!ft_strchr("cspdiuxX%%", format[flag_len]))
-				flag_len++;
-			ft_printf_flagcnt(format, ap, &ret, flag_len);
-			format += flag_len;
+			flag_len = ft_printf_flag_len(format);
+			w = ft_printf_flagcnt(format, ap, flag_len);
+			format += flag_len + 1;
 		}
 		else
-			ret += write(STDOUT_FILENO, format, 1);
-		format++;
+			w = write(STDOUT_FILENO, format++, 1);
+		if (w == -1)
+			return (-1);
+		ret += w;
 	}
 	va_end(ap);
 	return (ret);

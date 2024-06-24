@@ -41,18 +41,18 @@ static int	ft_printf_u(unsigned int u, char memo[12], int prec)
 int	ft_printf_u_with_flag(unsigned int u, int flag[])
 {
 	char	memo[12];
-	int		ret;
+	int		ret[5];
 	int		u_len;
 
+	ft_memset(ret, 0, sizeof(ret));
 	u_len = ft_printf_u(u, memo, flag[f_prec]);
-	ret = u_len;
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))
-		ret += fill(' ', flag[f_width] - max(u_len, flag[f_prec]));
+		ret[0] = fill(' ', flag[f_width] - max(u_len, flag[f_prec]));
 	if ((flag[f_minus] == 0) && (flag[f_prec] == -1) && (flag[f_zero] == 1))
-		ret += fill('0', flag[f_width] - max(u_len, flag[f_prec]));
-	ret += fill('0', max(0, flag[f_prec] - u_len));
-	ft_putstr_fd(memo + 11 - u_len, STDOUT_FILENO);
+		ret[1] = fill('0', flag[f_width] - max(u_len, flag[f_prec]));
+	ret[2] = fill('0', max(0, flag[f_prec] - u_len));
+	ret[3] = write(STDOUT_FILENO, memo + 11 - u_len, u_len);
 	if (flag[f_minus] == 1)
-		ret += fill(' ', flag[f_width] - max(u_len, flag[f_prec]));
-	return (ret);
+		ret[4] = fill(' ', flag[f_width] - max(u_len, flag[f_prec]));
+	return (sum_arr(ret, 5));
 }

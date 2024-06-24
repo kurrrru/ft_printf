@@ -45,26 +45,26 @@ int	ft_printf_d(int d, char memo[12], int prec)
 int	ft_printf_d_with_flag(int d, int flag[])
 {
 	char	memo[12];
-	int		ret;
+	int		ret[8];
 	int		d_len;
 	int		sign;
 
+	ft_memset(ret, 0, sizeof(ret));
 	d_len = ft_printf_d(d, memo, flag[f_prec]);
-	ret = d_len;
 	sign = (d < 0) | (flag[f_plus] == 1) | (flag[f_space] == 1);
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))
-		ret += fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
+		ret[0] = fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
 	if (d < 0)
-		ret += fill('-', 1);
+		ret[1] = fill('-', 1);
 	else if (d >= 0 && flag[f_plus] == 1)
-		ret += fill('+', 1);
+		ret[2] = fill('+', 1);
 	else if (d >= 0 && flag[f_plus] == 0 && flag[f_space] == 1)
-		ret += fill(' ', 1);
+		ret[3] = fill(' ', 1);
 	if ((flag[f_minus] == 0) && (flag[f_prec] == -1) && (flag[f_zero] == 1))
-		ret += fill('0', flag[f_width] - max(d_len, flag[f_prec]) - sign);
-	ret += fill('0', max(0, flag[f_prec] - d_len));
-	ft_putstr_fd(memo + 11 - d_len, STDOUT_FILENO);
+		ret[4] = fill('0', flag[f_width] - max(d_len, flag[f_prec]) - sign);
+	ret[5] = fill('0', max(0, flag[f_prec] - d_len));
+	ret[6] = write(STDOUT_FILENO, memo + 11 - d_len, d_len);
 	if (flag[f_minus] == 1)
-		ret += fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
-	return (ret);
+		ret[7] = fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
+	return (sum_arr(ret, 8));
 }

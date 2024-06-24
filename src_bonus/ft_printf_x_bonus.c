@@ -32,22 +32,22 @@ int	ft_printf_x(unsigned int x, char memo[9], char *base, int prec)
 int	ft_printf_x_with_flag(unsigned int x, int flag[], char *base, char *prefix)
 {
 	char	memo[9];
-	int		ret;
+	int		ret[6];
 	int		x_len;
 	int		pre_len;
 
+	ft_memset(ret, 0, sizeof(ret));
 	x_len = ft_printf_x(x, memo, base, flag[f_prec]);
-	ret = x_len;
 	pre_len = (x != 0 && flag[f_hash]) * 2;
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))
-		ret += fill(' ', flag[f_width] - max(x_len, flag[f_prec]) - pre_len);
+		ret[0] = fill(' ', flag[f_width] - max(x_len, flag[f_prec]) - pre_len);
 	if (x != 0 && flag[f_hash])
-		ret += write(1, prefix, 2);
+		ret[1] = write(STDOUT_FILENO, prefix, 2);
 	if ((flag[f_minus] == 0) && (flag[f_prec] == -1) && (flag[f_zero] == 1))
-		ret += fill('0', flag[f_width] - max(x_len, flag[f_prec]) - pre_len);
-	ret += fill('0', max(0, flag[f_prec] - x_len));
-	ft_putstr_fd(memo + 8 - x_len, STDOUT_FILENO);
+		ret[2] = fill('0', flag[f_width] - max(x_len, flag[f_prec]) - pre_len);
+	ret[3] = fill('0', max(0, flag[f_prec] - x_len));
+	ret[4] = write(STDOUT_FILENO, memo + 8 - x_len, x_len);
 	if (flag[f_minus] == 1)
-		ret += fill(' ', flag[f_width] - max(x_len, flag[f_prec]) - pre_len);
-	return (ret);
+		ret[5] = fill(' ', flag[f_width] - max(x_len, flag[f_prec]) - pre_len);
+	return (sum_arr(ret, 6));
 }

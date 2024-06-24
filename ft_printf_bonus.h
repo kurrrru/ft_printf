@@ -25,6 +25,7 @@ int				max(int a, int b);
 int				min(int a, int b);
 int				ft_printf_atoi(const char **str);
 int				fill(char filler, int len);
+int				sum_arr(int arr[], int n);
 
 int				ft_printf_c_with_flag(char c, int flag[]);
 int				ft_printf_s_with_flag(char *s, int flag[]);

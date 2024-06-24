@@ -29,11 +29,17 @@ int	min(int a, int b)
 int	fill(char filler, int len)
 {
 	int	ret;
+	int	w;
 
-	ret = len;
+	ret = 0;
 	while (len-- > 0)
-		write(STDOUT_FILENO, &filler, 1);
-	return (max(0, ret));
+	{
+		w = write(STDOUT_FILENO, &filler, 1);
+		if (w == -1)
+			return (-1);
+		ret += w;
+	}
+	return (ret);
 }
 
 int	ft_printf_atoi(const char **str)
@@ -41,20 +47,34 @@ int	ft_printf_atoi(const char **str)
 	long	ret;
 	long	sign;
 
-	ret = 0l;
-	sign = 1l;
+	ret = 0L;
+	sign = 1L;
 	while ((9 <= **str && **str <= 13) || **str == ' ')
 		(*str)++;
 	if (**str == '-' || **str == '+')
 		if (**str++ == '-')
-			sign = -1l;
+			sign = -1L;
 	while (ft_isdigit(**str))
 	{
-		if (ret > LONG_MAX / 10 || (ret == LONG_MAX / 10 && **str > '7'))
+		if (ret > LONG_MAX / 10L || (ret == LONG_MAX / 10L && **str > '7'))
 			return ((int)LONG_MAX);
-		if (ret < LONG_MIN / 10 || (ret == LONG_MIN / 10 && **str > '8'))
+		if (ret < LONG_MIN / 10L || (ret == LONG_MIN / 10L && **str > '8'))
 			return ((int)LONG_MIN);
-		ret = ret * 10l + (*(*str)++ - '0') * sign;
+		ret = ret * 10L + (*(*str)++ - '0') * sign;
 	}
 	return ((int)ret);
+}
+
+int	sum_arr(int arr[], int n)
+{
+	int	ret;
+
+	ret = 0;
+	while (n--)
+	{
+		if (arr[n] < 0)
+			return (-1);
+		ret += arr[n];
+	}
+	return (ret);
 }
