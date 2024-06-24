@@ -51,7 +51,7 @@ int	ft_printf_d_with_flag(int d, int flag[])
 
 	d_len = ft_printf_d(d, memo, flag[f_prec]);
 	ret = d_len;
-	sign = (d < 0) || (flag[f_plus] == 1) || (flag[f_space] == 1);
+	sign = (d < 0) | (flag[f_plus] == 1) | (flag[f_space] == 1);
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))
 		ret += fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
 	if (d < 0)
