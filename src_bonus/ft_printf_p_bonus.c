@@ -39,18 +39,18 @@ static int	ft_printf_p(void *p, char memo[17])
 int	ft_printf_p_with_flag(void *p, int flag[])
 {
 	char	memo[17];
-	int		ret[5];
+	int		ret[8];
 	int		p_len;
 
 	ft_memset(ret, 0, sizeof(ret));
 	p_len = ft_printf_p(p, memo);
 	if (flag[f_minus] == 0 && flag[f_zero] == 0)
-		ret[0] = fill(' ', flag[f_width] - p_len - 2);
-	ret[1] = write(STDOUT_FILENO, "0x", 2);
+		ret[0] = mf(' ', flag[f_width] - p_len - 2, ret);
+	ret[1] = mw("0x", 2, ret);
 	if (flag[f_minus] == 0 && flag[f_zero] == 1)
-		ret[2] = fill('0', flag[f_width] - p_len - 2);
-	ret[3] = write(STDOUT_FILENO, memo + 16 - p_len, p_len);
+		ret[2] = mf('0', flag[f_width] - p_len - 2, ret);
+	ret[3] = mw(memo + 16 - p_len, p_len, ret);
 	if (flag[f_minus] == 1)
-		ret[4] = fill(' ', flag[f_width] - p_len - 2);
-	return (sum_arr(ret, 5));
+		ret[4] = mf(' ', flag[f_width] - p_len - 2, ret);
+	return (sum_arr(ret));
 }

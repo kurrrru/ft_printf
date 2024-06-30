@@ -53,18 +53,18 @@ int	ft_printf_d_with_flag(int d, int flag[])
 	d_len = ft_printf_d(d, memo, flag[f_prec]);
 	sign = (d < 0) | (flag[f_plus] == 1) | (flag[f_space] == 1);
 	if ((flag[f_minus] == 0) && ((flag[f_prec] != -1) || (flag[f_zero] == 0)))
-		ret[0] = fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
+		ret[0] = mf(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign, ret);
 	if (d < 0)
-		ret[1] = fill('-', 1);
+		ret[1] = mf('-', 1, ret);
 	else if (d >= 0 && flag[f_plus] == 1)
-		ret[2] = fill('+', 1);
+		ret[2] = mf('+', 1, ret);
 	else if (d >= 0 && flag[f_plus] == 0 && flag[f_space] == 1)
-		ret[3] = fill(' ', 1);
+		ret[3] = mf(' ', 1, ret);
 	if ((flag[f_minus] == 0) && (flag[f_prec] == -1) && (flag[f_zero] == 1))
-		ret[4] = fill('0', flag[f_width] - max(d_len, flag[f_prec]) - sign);
-	ret[5] = fill('0', max(0, flag[f_prec] - d_len));
-	ret[6] = write(STDOUT_FILENO, memo + 11 - d_len, d_len);
+		ret[4] = mf('0', flag[f_width] - max(d_len, flag[f_prec]) - sign, ret);
+	ret[5] = mf('0', max(0, flag[f_prec] - d_len), ret);
+	ret[6] = mw(memo + 11 - d_len, d_len, ret);
 	if (flag[f_minus] == 1)
-		ret[7] = fill(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign);
-	return (sum_arr(ret, 8));
+		ret[7] = mf(' ', flag[f_width] - max(d_len, flag[f_prec]) - sign, ret);
+	return (sum_arr(ret));
 }

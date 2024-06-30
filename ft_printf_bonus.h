@@ -25,7 +25,7 @@ int				max(int a, int b);
 int				min(int a, int b);
 int				ft_printf_atoi(const char **str);
 int				fill(char filler, int len);
-int				sum_arr(int arr[], int n);
+int				sum_arr(int *arr);
 
 int				ft_printf_c_with_flag(char c, int flag[]);
 int				ft_printf_s_with_flag(char *s, int flag[]);
@@ -34,6 +34,9 @@ int				ft_printf_u_with_flag(unsigned int u, int flag[]);
 int				ft_printf_x_with_flag(unsigned int x, int flag[],
 					char *base, char *prefix);
 int				ft_printf_p_with_flag(void *p, int flag[]);
+
+int				mw(char *c, int size, int *ret);
+int				mf(char filler, int len, int *ret);
 
 typedef enum e_flag_type
 {

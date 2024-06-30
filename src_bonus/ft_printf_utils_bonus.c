@@ -65,10 +65,12 @@ int	ft_printf_atoi(const char **str)
 	return ((int)ret);
 }
 
-int	sum_arr(int arr[], int n)
+int	sum_arr(int *arr)
 {
 	int	ret;
+	int	n;
 
+	n = 8;
 	ret = 0;
 	while (n--)
 	{

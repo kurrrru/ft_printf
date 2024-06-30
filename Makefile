@@ -13,7 +13,8 @@ BONUS_SRCS	=	ft_printf_bonus.c \
 				src_bonus/ft_printf_u_bonus.c \
 				src_bonus/ft_printf_x_bonus.c \
 				src_bonus/ft_printf_p_bonus.c \
-				src_bonus/ft_printf_utils_bonus.c
+				src_bonus/ft_printf_utils_bonus.c \
+				src_bonus/ft_printf_utils2_bonus.c
 OBJS		=	$(SRCS:.c=.o)
 BONUS_OBJS	=	$(BONUS_SRCS:.c=.o)
 LIBDIR		=	libft
