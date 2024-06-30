@@ -54,11 +54,11 @@ int	ft_printf(const char *format, ...)
 		if (*format != '%')
 		{
 			if (write(STDOUT_FILENO, format, 1) < 0)
-				return (-1);
+				return (va_end(ap), -1);
 			ret += 1;
 		}
 		else if (ft_printf_sub(++format, ap, &ret) < 0)
-			return (-1);
+			return (va_end(ap), -1);
 		format++;
 	}
 	va_end(ap);

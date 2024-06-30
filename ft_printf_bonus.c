@@ -104,7 +104,7 @@ int	ft_printf(const char *format, ...)
 		else
 			w = write(STDOUT_FILENO, format++, 1);
 		if (w == -1)
-			return (-1);
+			return (va_end(ap), -1);
 		ret += w;
 	}
 	va_end(ap);
