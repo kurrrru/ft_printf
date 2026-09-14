@@ -57,6 +57,8 @@ int	ft_printf(const char *format, ...)
 				return (va_end(ap), -1);
 			ret += 1;
 		}
+		else if (*++format == '\0')
+			return (va_end(ap), -1);
 		else if (ft_printf_sub(++format, ap, &ret) < 0)
 			return (va_end(ap), -1);
 		format++;

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkawaguc <nkawaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 20:55:57 by nkawaguc          #+#    #+#             */
-/*   Updated: 2024/05/28 20:55:57 by nkawaguc         ###   ########.fr       */
+/*   Created: 2026/09/15 01:36:52 by nkawaguc          #+#    #+#             */
+/*   Updated: 2026/09/15 01:38:02 by nkawaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_printf_atoi(const char **str)
 	while ((9 <= **str && **str <= 13) || **str == ' ')
 		(*str)++;
 	if (**str == '-' || **str == '+')
-		if (**str++ == '-')
+		if (*(*str)++ == '-')
 			sign = -1L;
 	while (ft_isdigit(**str))
 	{
